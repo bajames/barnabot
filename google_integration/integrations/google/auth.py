@@ -20,6 +20,7 @@ SCOPES = [
     'https://www.googleapis.com/auth/gmail.readonly',  # Gmail read
     'https://www.googleapis.com/auth/gmail.send',  # Gmail send
     'https://www.googleapis.com/auth/gmail.modify',  # Gmail modify
+    'https://www.googleapis.com/auth/calendar',  # Google Calendar
 ]
 
 class GoogleAuthManager:
@@ -113,6 +114,12 @@ class GoogleAuthManager:
         if not self.creds:
             self.authenticate()
         return build('gmail', 'v1', credentials=self.creds)
+
+    def get_calendar_service(self):
+        """Get authenticated Google Calendar service."""
+        if not self.creds:
+            self.authenticate()
+        return build('calendar', 'v3', credentials=self.creds)
 
     def revoke_credentials(self):
         """Revoke and delete stored credentials."""
