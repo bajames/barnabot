@@ -6,6 +6,8 @@ import { signOut, useSession } from "next-auth/react";
 
 const subApps = [
   { label: "Crossword", href: "/dashboard/crossword", icon: "⊞" },
+  { label: "Map Poster", href: "/dashboard/map-poster", icon: "🗺" },
+  { label: "Bot Status", href: "/dashboard/status", icon: "⚡" },
 ];
 
 export default function Sidebar() {
