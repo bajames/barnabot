@@ -21,6 +21,7 @@ SCOPES = [
     'https://www.googleapis.com/auth/gmail.send',  # Gmail send
     'https://www.googleapis.com/auth/gmail.modify',  # Gmail modify
     'https://www.googleapis.com/auth/calendar',  # Google Calendar
+    'https://www.googleapis.com/auth/tasks',  # Google Tasks
 ]
 
 class GoogleAuthManager:
