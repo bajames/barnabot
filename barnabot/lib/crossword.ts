@@ -25,14 +25,14 @@ export interface CrosswordData {
   gridSize: number;
 }
 
-export const GRID_SIZE = 11;
+export const GRID_SIZE = 9;
 
 export function buildCrosswordPrompt(topic: string): string {
   return `You are an expert crossword puzzle constructor. Create a valid, solvable crossword puzzle about the topic: "${topic}".
 
 REQUIREMENTS:
 - Use an ${GRID_SIZE}x${GRID_SIZE} grid (${GRID_SIZE} rows, ${GRID_SIZE} columns, 0-indexed)
-- At least 15 thematic words related to "${topic}"
+- At least 8 thematic words related to "${topic}"
 - All words must be connected (no isolated sections)
 - Black squares should have approximate 180-degree rotational symmetry
 - Words must be at least 3 letters long
