@@ -5,32 +5,13 @@ import { exec } from "child_process";
 import { promisify } from "util";
 import fs from "fs";
 import path from "path";
+import { THEMES } from "@/lib/map-poster";
 
 export const maxDuration = 120;
 
 const execAsync = promisify(exec);
 
 const MAPTOPOSTER_DIR = "/workspace/group/maptoposter";
-
-export const THEMES = [
-  "terracotta",
-  "midnight_blue",
-  "forest",
-  "ocean",
-  "blueprint",
-  "noir",
-  "sunset",
-  "emerald",
-  "autumn",
-  "pastel_dream",
-  "neon_cyberpunk",
-  "japanese_ink",
-  "monochrome_blue",
-  "warm_beige",
-  "copper_patina",
-  "gradient_roads",
-  "contrast_zones",
-];
 
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);

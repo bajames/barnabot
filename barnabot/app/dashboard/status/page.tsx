@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { BotStatus } from "@/app/api/status/route";
+import { BotStatus } from "@/lib/bot-status";
 
 function StatusDot({ status }: { status: "connected" | "disconnected" }) {
   return (

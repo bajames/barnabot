@@ -1,27 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { THEMES } from "@/app/api/map-poster/route";
-
-const THEME_LABELS: Record<string, string> = {
-  terracotta: "Terracotta",
-  midnight_blue: "Midnight Blue",
-  forest: "Forest",
-  ocean: "Ocean",
-  blueprint: "Blueprint",
-  noir: "Noir",
-  sunset: "Sunset",
-  emerald: "Emerald",
-  autumn: "Autumn",
-  pastel_dream: "Pastel Dream",
-  neon_cyberpunk: "Neon Cyberpunk",
-  japanese_ink: "Japanese Ink",
-  monochrome_blue: "Monochrome Blue",
-  warm_beige: "Warm Beige",
-  copper_patina: "Copper Patina",
-  gradient_roads: "Gradient Roads",
-  contrast_zones: "Contrast Zones",
-};
+import { THEMES, THEME_LABELS } from "@/lib/map-poster";
 
 type Status = "idle" | "installing" | "generating" | "done" | "error";
 

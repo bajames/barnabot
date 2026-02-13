@@ -3,27 +3,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import fs from "fs";
 import path from "path";
-
-export interface Integration {
-  name: string;
-  status: "connected" | "disconnected";
-  account?: string;
-  scopes?: string[];
-}
-
-export interface RecentActivity {
-  timestamp: string;
-  duration: string;
-  sessionId: string;
-}
-
-export interface BotStatus {
-  botEmail: string;
-  lastSeen: string | null;
-  integrations: Integration[];
-  recentActivity: RecentActivity[];
-  capabilities: string[];
-}
+import type { Integration, RecentActivity, BotStatus } from "@/lib/bot-status";
 
 const WORKSPACE = "/workspace/group";
 const LOGS_DIR = path.join(WORKSPACE, "logs");
