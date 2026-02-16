@@ -25,18 +25,19 @@ export interface CrosswordData {
   gridSize: number;
 }
 
-export const GRID_SIZE = 9;
+export const GRID_SIZE = 13;
 
 export function buildCrosswordPrompt(topic: string): string {
   return `You are an expert crossword puzzle constructor. Create a valid, solvable crossword puzzle about the topic: "${topic}".
 
 REQUIREMENTS:
-- Use an ${GRID_SIZE}x${GRID_SIZE} grid (${GRID_SIZE} rows, ${GRID_SIZE} columns, 0-indexed)
-- At least 8 thematic words related to "${topic}"
+- Use a ${GRID_SIZE}x${GRID_SIZE} grid (${GRID_SIZE} rows, ${GRID_SIZE} columns, 0-indexed)
+- At least 10 thematic words related to "${topic}"
 - All words must be connected (no isolated sections)
 - Black squares should have approximate 180-degree rotational symmetry
-- Words must be at least 3 letters long
+- Words must be at least 3 letters long; longer words (8-11 letters) are encouraged
 - Every white cell must be part of both an across and a down word (fully checked grid)
+- CRITICAL: Every word must be bounded by a black square or grid edge at BOTH ends. Two different words must NEVER share cells or run into each other without a black square between them.
 - Clues should be clever and fun, appropriate for the topic
 
 Return ONLY a valid JSON object with NO other text, preamble, or explanation. Use exactly this structure:
@@ -80,7 +81,48 @@ IMPORTANT:
 - letter must be an uppercase letter for white cells, "" for black cells
 - Every answer in clues must exactly match the letters in the grid at the given coordinates
 - Clue numbers must be sequential starting from 1, assigned left-to-right, top-to-bottom
-- A cell gets a number if it starts an across word (is a white cell where the cell to its left is black/edge, and the word is 3+ letters) OR a down word (is a white cell where the cell above is black/edge, and the word is 3+ letters)`;
+- A cell gets a number if it starts an across word (is a white cell where the cell to its left is black/edge, and the word is 3+ letters) OR a down word (is a white cell where the cell above is black/edge, and the word is 3+ letters)
+- Double-check: for every across word of length N starting at (r, startCol), verify that startCol+N equals ${GRID_SIZE} OR grid[r][startCol+N].isBlack is true`;
+}
+
+/**
+ * Validates that every clue's answer matches the grid letters,
+ * and that words are bounded by black squares / edges on both ends.
+ * Returns a list of error strings, empty if valid.
+ */
+export function validateCrossword(data: CrosswordData): string[] {
+  const { grid, gridSize, clues } = data;
+  const errors: string[] = [];
+
+  const allClues = [...clues.across, ...clues.down];
+  for (const clue of allClues) {
+    const { startRow, startCol, answer, direction, length } = clue;
+    // Check answer matches grid
+    for (let i = 0; i < length; i++) {
+      const r = startRow + (direction === "down" ? i : 0);
+      const c = startCol + (direction === "across" ? i : 0);
+      if (r >= gridSize || c >= gridSize) {
+        errors.push(`Clue ${clue.number} ${direction}: out of bounds at i=${i}`);
+        break;
+      }
+      if (grid[r][c].isBlack) {
+        errors.push(`Clue ${clue.number} ${direction}: black cell in word at (${r},${c})`);
+        break;
+      }
+      const gridLetter = grid[r][c].letter.toUpperCase();
+      const answerLetter = (answer[i] || "").toUpperCase();
+      if (gridLetter !== answerLetter) {
+        errors.push(`Clue ${clue.number} ${direction}: grid[${r}][${c}]="${gridLetter}" != answer[${i}]="${answerLetter}"`);
+      }
+    }
+    // Check end boundary
+    const endR = startRow + (direction === "down" ? length : 0);
+    const endC = startCol + (direction === "across" ? length : 0);
+    if (endR < gridSize && endC < gridSize && !grid[endR][endC].isBlack) {
+      errors.push(`Clue ${clue.number} ${direction}: no black square at end (${endR},${endC})`);
+    }
+  }
+  return errors;
 }
 
 /**

@@ -185,6 +185,7 @@ export default function CrosswordPage() {
                 onCellChange={handleCellChange}
                 checkResults={checkResults}
                 selectedClue={selectedClue}
+                onClueSelect={handleClueSelect}
               />
               <div className="mt-4 flex gap-2">
                 <button
