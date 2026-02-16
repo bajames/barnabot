@@ -25,7 +25,7 @@ export interface CrosswordData {
   gridSize: number;
 }
 
-export const GRID_SIZE = 13;
+export const GRID_SIZE = 15;
 
 export function buildCrosswordPrompt(topic: string): string {
   return `You are an expert crossword puzzle constructor. Create a valid, solvable crossword puzzle about the topic: "${topic}".
@@ -161,12 +161,39 @@ export function recomputeClueNumbers(data: CrosswordData): CrosswordData {
     }))
   );
 
-  // Update clue numbers to match recomputed positions
+  // Compute actual word length from grid for a given start position and direction
+  const computeLength = (startRow: number, startCol: number, direction: "across" | "down"): number => {
+    let len = 0;
+    let r = startRow, c = startCol;
+    while (r < gridSize && c < gridSize && !grid[r][c].isBlack) {
+      len++;
+      if (direction === "across") c++; else r++;
+    }
+    return len;
+  };
+
+  // Compute actual answer string from grid
+  const computeAnswer = (startRow: number, startCol: number, direction: "across" | "down", length: number): string => {
+    let answer = "";
+    for (let i = 0; i < length; i++) {
+      const r = startRow + (direction === "down" ? i : 0);
+      const c = startCol + (direction === "across" ? i : 0);
+      answer += grid[r]?.[c]?.letter || "";
+    }
+    return answer;
+  };
+
+  // Update clue numbers, lengths, and answers to match actual grid layout
   const updateClues = (clues: CrosswordClue[]) =>
-    clues.map((clue) => ({
-      ...clue,
-      number: numberMap[clue.startRow][clue.startCol] || clue.number,
-    }));
+    clues.map((clue) => {
+      const length = computeLength(clue.startRow, clue.startCol, clue.direction);
+      return {
+        ...clue,
+        number: numberMap[clue.startRow][clue.startCol] || clue.number,
+        length,
+        answer: computeAnswer(clue.startRow, clue.startCol, clue.direction, length),
+      };
+    });
 
   return {
     ...data,
