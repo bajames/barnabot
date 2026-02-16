@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import CrosswordForm from "@/components/crossword/CrosswordForm";
-import CrosswordGrid from "@/components/crossword/CrosswordGrid";
+import CrosswordGrid, { CrosswordGridHandle } from "@/components/crossword/CrosswordGrid";
 import CrosswordClues from "@/components/crossword/CrosswordClues";
 import { CrosswordData } from "@/lib/crossword";
 
@@ -19,6 +19,7 @@ const PROGRESS_STEPS = [
 ];
 
 export default function CrosswordPage() {
+  const gridRef = useRef<CrosswordGridHandle>(null);
   const [crossword, setCrossword] = useState<CrosswordData | null>(null);
   const [userGrid, setUserGrid] = useState<string[][]>([]);
   const [generationStatus, setGenerationStatus] = useState<GenerationStatus>("idle");
@@ -102,6 +103,11 @@ export default function CrosswordPage() {
     setSelectedClue({ number, direction });
   };
 
+  const handleClueSelectFromPanel = (number: number, direction: "across" | "down") => {
+    setSelectedClue({ number, direction });
+    gridRef.current?.focusClue(number, direction);
+  };
+
   const handleReset = () => {
     if (!crossword) return;
     setUserGrid(crossword.grid.map((row) => row.map((cell) => (cell.isBlack ? "#" : ""))));
@@ -180,6 +186,7 @@ export default function CrosswordPage() {
           <div className="flex gap-8 items-start">
             <div>
               <CrosswordGrid
+                ref={gridRef}
                 crossword={crossword}
                 userGrid={userGrid}
                 onCellChange={handleCellChange}
@@ -212,7 +219,7 @@ export default function CrosswordPage() {
             <CrosswordClues
               clues={crossword.clues}
               selectedClue={selectedClue}
-              onClueSelect={handleClueSelect}
+              onClueSelect={handleClueSelectFromPanel}
             />
           </div>
         </div>

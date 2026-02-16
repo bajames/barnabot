@@ -1,7 +1,11 @@
 "use client";
 
-import { useRef, useCallback, useEffect } from "react";
+import { useRef, useCallback, useImperativeHandle, forwardRef } from "react";
 import { CrosswordData, CrosswordClue } from "@/lib/crossword";
+
+export interface CrosswordGridHandle {
+  focusClue: (number: number, direction: "across" | "down") => void;
+}
 
 interface Props {
   crossword: CrosswordData;
@@ -12,16 +16,27 @@ interface Props {
   onClueSelect: (number: number, direction: "across" | "down") => void;
 }
 
-export default function CrosswordGrid({
-  crossword,
-  userGrid,
-  onCellChange,
-  checkResults,
-  selectedClue,
-  onClueSelect,
-}: Props) {
+const CrosswordGrid = forwardRef<CrosswordGridHandle, Props>(function CrosswordGrid(
+  { crossword, userGrid, onCellChange, checkResults, selectedClue, onClueSelect },
+  ref
+) {
   const inputRefs = useRef<(HTMLInputElement | null)[][]>([]);
   const { grid, gridSize, clues } = crossword;
+
+  const focusCell = (r: number, c: number) => {
+    if (r >= 0 && r < gridSize && c >= 0 && c < gridSize) {
+      inputRefs.current[r]?.[c]?.focus();
+    }
+  };
+
+  // Expose focusClue for the clues panel to call directly
+  useImperativeHandle(ref, () => ({
+    focusClue(number: number, direction: "across" | "down") {
+      const clueList = direction === "across" ? clues.across : clues.down;
+      const clue = clueList.find((c) => c.number === number);
+      if (clue) focusCell(clue.startRow, clue.startCol);
+    },
+  }));
 
   // Find cells that belong to the currently selected clue
   const highlightedCells = useCallback((): Set<string> => {
@@ -30,7 +45,6 @@ export default function CrosswordGrid({
       selectedClue.direction === "across" ? clues.across : clues.down;
     const clue = clueList.find((c) => c.number === selectedClue.number);
     if (!clue) return new Set();
-
     const cells = new Set<string>();
     for (let i = 0; i < clue.length; i++) {
       const r = clue.startRow + (selectedClue.direction === "down" ? i : 0);
@@ -41,24 +55,6 @@ export default function CrosswordGrid({
   }, [selectedClue, clues]);
 
   const highlighted = highlightedCells();
-
-  const focusCell = (r: number, c: number) => {
-    if (r >= 0 && r < gridSize && c >= 0 && c < gridSize) {
-      inputRefs.current[r]?.[c]?.focus();
-    }
-  };
-
-  // When a clue is selected externally, focus its first cell
-  useEffect(() => {
-    if (!selectedClue) return;
-    const clueList =
-      selectedClue.direction === "across" ? clues.across : clues.down;
-    const clue = clueList.find((c) => c.number === selectedClue.number);
-    if (clue) {
-      focusCell(clue.startRow, clue.startCol);
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedClue]);
 
   // Find which clue(s) a cell belongs to
   const getCluesForCell = useCallback(
@@ -79,54 +75,31 @@ export default function CrosswordGrid({
   const handleCellClick = (r: number, c: number) => {
     focusCell(r, c);
     const { across, down } = getCluesForCell(r, c);
-    // If already selected clue covers this cell, toggle direction; otherwise pick across first
+    // If the currently selected clue covers this cell, toggle direction on re-click
     if (selectedClue) {
-      const currentClue =
-        selectedClue.direction === "across" ? across : down;
-      if (currentClue && currentClue.number === selectedClue.number) {
-        // Toggle to other direction if available
-        const other = selectedClue.direction === "across" ? down : across;
-        if (other) {
-          onClueSelect(other.number, other.direction);
-          return;
-        }
-      }
+      const inAcross = across && across.number === selectedClue.number && selectedClue.direction === "across";
+      const inDown = down && down.number === selectedClue.number && selectedClue.direction === "down";
+      if (inAcross && down) { onClueSelect(down.number, "down"); return; }
+      if (inDown && across) { onClueSelect(across.number, "across"); return; }
     }
-    if (across) {
-      onClueSelect(across.number, "across");
-    } else if (down) {
-      onClueSelect(down.number, "down");
-    }
+    if (across) { onClueSelect(across.number, "across"); }
+    else if (down) { onClueSelect(down.number, "down"); }
   };
 
-  const handleKeyDown = (
-    e: React.KeyboardEvent<HTMLInputElement>,
-    r: number,
-    c: number
-  ) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, r: number, c: number) => {
     const moves: Record<string, [number, number]> = {
-      ArrowRight: [0, 1],
-      ArrowLeft: [0, -1],
-      ArrowDown: [1, 0],
-      ArrowUp: [-1, 0],
+      ArrowRight: [0, 1], ArrowLeft: [0, -1], ArrowDown: [1, 0], ArrowUp: [-1, 0],
     };
     const move = moves[e.key];
     if (move) {
       e.preventDefault();
       const [dr, dc] = move;
-      let nr = r + dr;
-      let nc = c + dc;
-      while (
-        nr >= 0 && nr < gridSize &&
-        nc >= 0 && nc < gridSize &&
-        grid[nr][nc].isBlack
-      ) {
-        nr += dr;
-        nc += dc;
+      let nr = r + dr, nc = c + dc;
+      while (nr >= 0 && nr < gridSize && nc >= 0 && nc < gridSize && grid[nr][nc].isBlack) {
+        nr += dr; nc += dc;
       }
       if (nr >= 0 && nr < gridSize && nc >= 0 && nc < gridSize) {
         focusCell(nr, nc);
-        // Update selected clue based on direction of movement
         const { across, down } = getCluesForCell(nr, nc);
         if (dc !== 0 && across) onClueSelect(across.number, "across");
         else if (dr !== 0 && down) onClueSelect(down.number, "down");
@@ -137,25 +110,17 @@ export default function CrosswordGrid({
       if (c > 0 && !grid[r][c - 1].isBlack) focusCell(r, c - 1);
       else if (r > 0) {
         for (let pc = gridSize - 1; pc >= 0; pc--) {
-          if (!grid[r - 1][pc].isBlack) {
-            focusCell(r - 1, pc);
-            break;
-          }
+          if (!grid[r - 1][pc].isBlack) { focusCell(r - 1, pc); break; }
         }
       }
     }
   };
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    r: number,
-    c: number
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, r: number, c: number) => {
     const raw = e.target.value.replace(/[^a-zA-Z]/g, "");
     const val = raw.slice(-1).toUpperCase();
     onCellChange(r, c, val);
     if (val) {
-      // Auto-advance in the direction of the selected clue
       if (selectedClue?.direction === "across" && c + 1 < gridSize && !grid[r][c + 1].isBlack) {
         focusCell(r, c + 1);
       } else if (selectedClue?.direction === "down" && r + 1 < gridSize && !grid[r + 1][c].isBlack) {
@@ -166,7 +131,7 @@ export default function CrosswordGrid({
     }
   };
 
-  const CELL_SIZE = 36; // px
+  const CELL_SIZE = 36;
 
   return (
     <div
@@ -180,13 +145,7 @@ export default function CrosswordGrid({
       {grid.map((row, r) =>
         row.map((cell, c) => {
           if (cell.isBlack) {
-            return (
-              <div
-                key={`${r}-${c}`}
-                style={{ width: CELL_SIZE, height: CELL_SIZE }}
-                className="bg-gray-900"
-              />
-            );
+            return <div key={`${r}-${c}`} style={{ width: CELL_SIZE, height: CELL_SIZE }} className="bg-gray-900" />;
           }
 
           const key = `${r}-${c}`;
@@ -225,7 +184,6 @@ export default function CrosswordGrid({
                 value={userGrid[r]?.[c] ?? ""}
                 onChange={(e) => handleChange(e, r, c)}
                 onKeyDown={(e) => handleKeyDown(e, r, c)}
-                onFocus={() => handleCellClick(r, c)}
                 style={{
                   position: "absolute",
                   inset: 0,
@@ -240,10 +198,8 @@ export default function CrosswordGrid({
                   outline: "none",
                   caretColor: "transparent",
                   color: result === false ? "#dc2626" : "#111827",
-                  // Use line-height equal to cell height for perfect vertical centering
                   lineHeight: `${CELL_SIZE}px`,
                   paddingTop: cell.clueNumber ? "8px" : "0px",
-                  paddingBottom: cell.clueNumber ? "0px" : "0px",
                   boxSizing: "border-box",
                   cursor: "text",
                 }}
@@ -254,4 +210,6 @@ export default function CrosswordGrid({
       )}
     </div>
   );
-}
+});
+
+export default CrosswordGrid;
