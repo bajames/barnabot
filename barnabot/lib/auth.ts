@@ -1,7 +1,7 @@
 import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
-const ALLOWED_EMAIL = "bajames@gmail.com";
+const ALLOWED_EMAILS = ["bajames@gmail.com", "rockpaperscissorshoots@gmail.com"];
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -12,8 +12,7 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async signIn({ user }) {
-      // Only allow Barnaby's account
-      return user.email === ALLOWED_EMAIL;
+      return ALLOWED_EMAILS.includes(user.email ?? "");
     },
     async session({ session, token }) {
       return session;
