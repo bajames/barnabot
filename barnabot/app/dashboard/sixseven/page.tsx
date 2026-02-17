@@ -53,19 +53,7 @@ const TILE_COLORS: Record<LetterState, string> = {
   typing: "bg-white border-gray-500 text-gray-900",
 };
 
-const KEY_COLORS: Record<LetterState, string> = {
-  correct: "bg-green-600 text-white",
-  present: "bg-yellow-500 text-white",
-  absent: "bg-gray-500 text-white",
-  empty: "bg-gray-200 text-gray-900",
-  typing: "bg-gray-200 text-gray-900",
-};
 
-const KEYBOARD_ROWS = [
-  ["Q","W","E","R","T","Y","U","I","O","P"],
-  ["A","S","D","F","G","H","J","K","L"],
-  ["ENTER","Z","X","C","V","B","N","M","⌫"],
-];
 
 export default function SixSevenPage() {
   const [answer, setAnswer] = useState<string>(() => pickWord());
@@ -146,17 +134,6 @@ export default function SixSevenPage() {
     return () => window.removeEventListener("keydown", handler);
   }, [handleKey]);
 
-  // Build keyboard letter states
-  const letterStates: Record<string, LetterState> = {};
-  guesses.forEach((row) => {
-    row.forEach(({ letter, state }) => {
-      const prev = letterStates[letter];
-      if (prev === "correct") return;
-      if (prev === "present" && state === "absent") return;
-      letterStates[letter] = state;
-    });
-  });
-
   const newGame = () => {
     setAnswer(pickWord());
     setGuesses([]);
@@ -236,31 +213,6 @@ export default function SixSevenPage() {
             </div>
           );
         })}
-      </div>
-
-      {/* Keyboard */}
-      <div className="space-y-1.5 w-full max-w-sm">
-        {KEYBOARD_ROWS.map((row, i) => (
-          <div key={i} className="flex justify-center gap-1">
-            {row.map((key) => {
-              const state = letterStates[key] || "empty";
-              const isWide = key === "ENTER" || key === "⌫";
-              return (
-                <button
-                  key={key}
-                  onClick={() => handleKey(key)}
-                  className={`
-                    ${isWide ? "px-3 text-xs" : "w-9"} h-14 rounded font-bold text-sm
-                    ${KEY_COLORS[state]}
-                    active:scale-95 transition-transform
-                  `}
-                >
-                  {key}
-                </button>
-              );
-            })}
-          </div>
-        ))}
       </div>
 
       {/* New game button */}
