@@ -6,6 +6,7 @@ import { signOut, useSession } from "next-auth/react";
 
 const subApps = [
   { label: "Crossword", href: "/dashboard/crossword", icon: "⊞" },
+  { label: "SixSeven", href: "/dashboard/sixseven", icon: "🟩" },
   { label: "Bot Status", href: "/dashboard/status", icon: "⚡" },
 ];
 
