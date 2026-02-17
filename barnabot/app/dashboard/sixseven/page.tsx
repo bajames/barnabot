@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { WORDS_6, WORDS_7 } from "@/lib/sixseven-words";
+import type { LeaderboardEntry } from "@/app/api/sixseven/leaderboard/route";
 
 const MAX_GUESSES = 6;
 
@@ -77,7 +78,8 @@ export default function SixSevenPage() {
   const [won, setWon] = useState(false);
   const [shake, setShake] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
-  const [revealed, setRevealed] = useState<Set<number>>(new Set());
+  const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[] | null>(null);
+  const [showLeaderboard, setShowLeaderboard] = useState(false);
 
   const wordLen = answer.length;
   const wordList = wordLen === 6 ? WORDS_6 : WORDS_7;
@@ -86,6 +88,30 @@ export default function SixSevenPage() {
     setMessage(msg);
     setTimeout(() => setMessage(null), duration);
   };
+
+  const recordResult = useCallback(async (word: string, didWin: boolean, guessesUsed: number) => {
+    try {
+      await fetch("/api/sixseven/record", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ word, won: didWin, guessesUsed }),
+      });
+    } catch {
+      // silently ignore
+    }
+  }, []);
+
+  const fetchLeaderboard = useCallback(async () => {
+    try {
+      const res = await fetch("/api/sixseven/leaderboard");
+      if (res.ok) {
+        const data = await res.json();
+        setLeaderboard(data);
+      }
+    } catch {
+      // silently ignore
+    }
+  }, []);
 
   const submitGuess = useCallback(() => {
     if (currentGuess.length !== wordLen) {
@@ -113,20 +139,25 @@ export default function SixSevenPage() {
 
     const isWin = currentGuess === answer;
     const isLastGuess = guesses.length + 1 >= MAX_GUESSES;
+    const guessesUsed = guesses.length + 1;
 
     if (isWin) {
       setTimeout(() => {
         setWon(true);
         setGameOver(true);
         showMessage("Brilliant!", 3000);
+        recordResult(answer, true, guessesUsed);
+        fetchLeaderboard();
       }, wordLen * 80 + 200);
     } else if (isLastGuess) {
       setTimeout(() => {
         setGameOver(true);
         showMessage(answer, 4000);
+        recordResult(answer, false, guessesUsed);
+        fetchLeaderboard();
       }, wordLen * 80 + 200);
     }
-  }, [currentGuess, wordLen, wordList, answer, guesses.length]);
+  }, [currentGuess, wordLen, wordList, answer, guesses.length, recordResult, fetchLeaderboard]);
 
   const handleKey = useCallback((key: string) => {
     if (gameOver) return;
@@ -147,6 +178,11 @@ export default function SixSevenPage() {
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
   }, [handleKey]);
+
+  // Load leaderboard on first mount
+  useEffect(() => {
+    fetchLeaderboard();
+  }, [fetchLeaderboard]);
 
   const newGame = () => {
     setAnswer(pickWord());
@@ -193,12 +229,57 @@ export default function SixSevenPage() {
 
   return (
     <div className="max-w-lg mx-auto flex flex-col items-center">
-      <div className="w-full mb-4">
-        <h2 className="text-2xl font-bold text-gray-900 mb-1">SixSeven</h2>
-        <p className="text-sm text-gray-500">
-          Guess the {wordLen}-letter word in {MAX_GUESSES} tries.
-        </p>
+      <div className="w-full mb-4 flex items-start justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900 mb-1">SixSeven</h2>
+          <p className="text-sm text-gray-500">
+            Guess the {wordLen}-letter word in {MAX_GUESSES} tries.
+          </p>
+        </div>
+        <button
+          onClick={() => setShowLeaderboard((v) => !v)}
+          className="text-sm text-blue-600 hover:text-blue-800 font-medium mt-1"
+        >
+          {showLeaderboard ? "Hide" : "Leaderboard"}
+        </button>
       </div>
+
+      {/* Leaderboard */}
+      {showLeaderboard && (
+        <div className="w-full mb-6 bg-white border border-gray-200 rounded-xl overflow-hidden">
+          <div className="px-4 py-3 border-b border-gray-100 bg-gray-50">
+            <h3 className="text-sm font-semibold text-gray-700">Leaderboard</h3>
+          </div>
+          {!leaderboard ? (
+            <p className="px-4 py-3 text-sm text-gray-400">Loading...</p>
+          ) : leaderboard.length === 0 ? (
+            <p className="px-4 py-3 text-sm text-gray-400">No games yet.</p>
+          ) : (
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="text-xs text-gray-400 border-b border-gray-100">
+                  <th className="px-4 py-2 text-left font-medium">Player</th>
+                  <th className="px-4 py-2 text-right font-medium">Played</th>
+                  <th className="px-4 py-2 text-right font-medium">Won</th>
+                  <th className="px-4 py-2 text-right font-medium">Win %</th>
+                  <th className="px-4 py-2 text-right font-medium">Avg</th>
+                </tr>
+              </thead>
+              <tbody>
+                {leaderboard.map((entry, i) => (
+                  <tr key={entry.email} className={i % 2 === 0 ? "bg-white" : "bg-gray-50"}>
+                    <td className="px-4 py-2 text-gray-800 font-medium truncate max-w-[120px]">{entry.name}</td>
+                    <td className="px-4 py-2 text-right text-gray-600">{entry.played}</td>
+                    <td className="px-4 py-2 text-right text-gray-600">{entry.won}</td>
+                    <td className="px-4 py-2 text-right text-green-700 font-semibold">{entry.winRate}%</td>
+                    <td className="px-4 py-2 text-right text-gray-600">{entry.avgGuesses > 0 ? entry.avgGuesses : "—"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+      )}
 
       {/* Message toast */}
       {message && (
