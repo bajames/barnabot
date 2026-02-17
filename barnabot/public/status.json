@@ -1,0 +1,31 @@
+{
+  "updatedAt": "2026-02-17T00:38:00Z",
+  "botEmail": "thebarnabybot@gmail.com",
+  "integrations": [
+    { "name": "Gmail", "status": "connected", "account": "thebarnabybot@gmail.com" },
+    { "name": "Google Drive", "status": "connected", "account": "thebarnabybot@gmail.com" },
+    { "name": "Google Calendar", "status": "connected", "account": "thebarnabybot@gmail.com" },
+    { "name": "Google Sheets", "status": "connected", "account": "thebarnabybot@gmail.com" }
+  ],
+  "scheduledTasks": [
+    { "name": "Daily morning summary email", "schedule": "7am PT daily", "status": "active" }
+  ],
+  "capabilities": [
+    "Send & receive emails (Gmail)",
+    "Read & write Google Drive files",
+    "Create & manage Google Calendar events",
+    "Read & write Google Sheets",
+    "Generate map posters (via Telegram)",
+    "Generate AI crossword puzzles",
+    "Search the web",
+    "Schedule recurring tasks",
+    "Browse the web"
+  ],
+  "recentWork": [
+    "Fixed Vercel build errors and Google OAuth login",
+    "Crossword: 15x15 grid, fixed clicking/highlighting/typing",
+    "Set up daily 7am morning summary email",
+    "Reauthorized Gmail token",
+    "Removed Map Poster from web app (requires Python)"
+  ]
+}
