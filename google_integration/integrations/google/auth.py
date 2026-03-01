@@ -100,26 +100,26 @@ class GoogleAuthManager:
 
     def get_drive_service(self):
         """Get authenticated Google Drive service."""
-        if not self.creds:
-            self.authenticate()
+        # Always authenticate to ensure fresh credentials
+        self.authenticate()
         return build('drive', 'v3', credentials=self.creds)
 
     def get_docs_service(self):
         """Get authenticated Google Docs service."""
-        if not self.creds:
-            self.authenticate()
+        # Always authenticate to ensure fresh credentials
+        self.authenticate()
         return build('docs', 'v1', credentials=self.creds)
 
     def get_gmail_service(self):
         """Get authenticated Gmail service."""
-        if not self.creds:
-            self.authenticate()
+        # Always authenticate to ensure fresh credentials
+        self.authenticate()
         return build('gmail', 'v1', credentials=self.creds)
 
     def get_calendar_service(self):
         """Get authenticated Google Calendar service."""
-        if not self.creds:
-            self.authenticate()
+        # Always authenticate to ensure fresh credentials
+        self.authenticate()
         return build('calendar', 'v3', credentials=self.creds)
 
     def revoke_credentials(self):
