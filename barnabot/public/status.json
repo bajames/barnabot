@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-02-17T00:38:00Z",
+  "updatedAt": "2026-03-28T00:15:00Z",
   "botEmail": "thebarnabybot@gmail.com",
   "integrations": [
     { "name": "Gmail", "status": "connected", "account": "thebarnabybot@gmail.com" },
@@ -8,7 +8,8 @@
     { "name": "Google Sheets", "status": "connected", "account": "thebarnabybot@gmail.com" }
   ],
   "scheduledTasks": [
-    { "name": "Daily morning summary email", "schedule": "7am PT daily", "status": "active" }
+    { "name": "Daily morning summary email", "schedule": "7am PT daily", "status": "active" },
+    { "name": "AgenticInvestor - Investment analysis", "schedule": "Every 30 minutes", "status": "active" }
   ],
   "capabilities": [
     "Send & receive emails (Gmail)",
@@ -19,13 +20,14 @@
     "Generate AI crossword puzzles",
     "Search the web",
     "Schedule recurring tasks",
-    "Browse the web"
+    "Browse the web",
+    "AI investment analysis (AgenticInvestor)"
   ],
   "recentWork": [
-    "Fixed Vercel build errors and Google OAuth login",
-    "Crossword: 15x15 grid, fixed clicking/highlighting/typing",
-    "Set up daily 7am morning summary email",
-    "Reauthorized Gmail token",
-    "Removed Map Poster from web app (requires Python)"
+    "Built AgenticInvestor: AI investment analysis agent",
+    "Scheduled AgenticInvestor to run every 30 min",
+    "Fixed Google API token auto-refresh",
+    "Switzerland & Italy vacation itinerary (10 days, June 2026)",
+    "SixSeven leaderboard via Google Sheets"
   ]
 }

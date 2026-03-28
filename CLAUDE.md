@@ -8,8 +8,17 @@ This is the same Claude assistant that Barnaby talks to on WhatsApp. All the sam
 
 ## Scheduled Tasks
 
-- **Daily 7am PT morning summary email** → bajames@gmail.com (task ID: 1771190640866-99fdpq.json, cron: 0 15 * * * UTC)
+- **Daily 7am PT morning summary email** → bajames@gmail.com (task ID: 1771483034089-glskeq.json, cron: 0 7 * * * local PT)
   - Summarizes completed work, active tasks, token usage, integrations
+  - Note: cron times are LOCAL (PT), not UTC
+
+- **AgenticInvestor - Investment Email Analysis** (task ID: 1774656914244-lvtpto.json, cron: */30 * * * * - every 30 min)
+  - Monitors Gmail label "Investment Review"
+  - Analyzes company, founders, pitch decks
+  - Generates investment recommendations
+  - Emails results to bajames@gmail.com
+  - Code: /workspace/group/AgenticInvestor
+  - GitHub: https://github.com/bajames/AgenticInvestor
 
 ## Barnabot Status Page
 
