@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_8a7647c3dbd913e9ee8c7d70156c20c9 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.fullscreen@3.0.0/Control.FullScreen.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.fullscreen@3.0.0/Control.FullScreen.css"/>
+    <script src="https://cdn.jsdelivr.net/gh/ljagis/leaflet-measure@2.1.7/dist/leaflet-measure.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ljagis/leaflet-measure@2.1.7/dist/leaflet-measure.min.css"/>
+</head>
+<body>
+    
+    <div style="position:fixed; top:10px; left:60px; width:550px; background:rgba(255,255,255,0.95); 
+border:2px solid #333; border-radius:8px; z-index:9999; padding:15px; box-shadow:3px 3px 10px rgba(0,0,0,0.4);">
+<h2 style="margin:0 0 5px 0; font-size:20px;">🇨🇭 Switzerland Vacation Guide - June 2026</h2>
+<p style="margin:0; font-size:13px;"><strong>Topographic map</strong> shows borders, mountains, railways, roads</p></div>
+    <div style="position:fixed; bottom:40px; right:20px; width:250px; background:rgba(255,255,255,0.95); 
+border:2px solid #333; border-radius:8px; z-index:9999; padding:15px;">
+<h4 style="margin:0 0 10px 0;">📍 Legend</h4>
+<p><span style="display:inline-block; width:16px; height:16px; background:#0074D9; border-radius:50%;"></span> <b>Cities</b> (6)</p>
+<p><span style="display:inline-block; width:16px; height:16px; background:#B10DC9; border-radius:50%;"></span> <b>Mountain Towns</b> (10)</p>
+<p><span style="display:inline-block; width:16px; height:16px; background:#FF851B; border-radius:50%;"></span> <b>St. Moritz Area</b> (4)</p>
+<p><span style="display:inline-block; width:16px; height:16px; background:#FF4136; border-radius:50%;"></span> <b>Visited</b> (2)</p></div>
+    
+            <div class="folium-map" id="map_8a7647c3dbd913e9ee8c7d70156c20c9" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_8a7647c3dbd913e9ee8c7d70156c20c9 = L.map(
+                "map_8a7647c3dbd913e9ee8c7d70156c20c9",
+                {
+                    center: [46.8, 8.3],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 8,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_e4311feb02668672471f5ae6c18f6d47 = L.tileLayer(
+                "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 18,
+  "maxNativeZoom": 18,
+  "noWrap": false,
+  "attribution": "OpenStreetMap \u0026 OpenTopoMap",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_e4311feb02668672471f5ae6c18f6d47.addTo(map_8a7647c3dbd913e9ee8c7d70156c20c9);
+        
+    
+            var tile_layer_e8fefd164eee20c4fa4b04afdb9ecec0 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_e8fefd164eee20c4fa4b04afdb9ecec0.addTo(map_8a7647c3dbd913e9ee8c7d70156c20c9);
+        
+    
+            var tile_layer_4424d9e8a48630b3bb770fc9dec51d2a = L.tileLayer(
+                "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+                {
+  "minZoom": 0,
+  "maxZoom": 18,
+  "maxNativeZoom": 18,
+  "noWrap": false,
+  "attribution": "Esri",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_4424d9e8a48630b3bb770fc9dec51d2a.addTo(map_8a7647c3dbd913e9ee8c7d70156c20c9);
+        
+    
+            var marker_4fe950f303ae3759e134a24257b0c5af = L.marker(
+                [46.558, 7.891],
+                {
+}
+            ).addTo(map_8a7647c3dbd913e9ee8c7d70156c20c9);
+        
+    
+            var icon_60c753538dbba6894862f48c9ff4c12c = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "remove",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_40d19f2506b5e5450979a096fff94781 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_0c5304793ed676f46d18fd1c23cf5306 = $(`<div id="html_0c5304793ed676f46d18fd1c23cf5306" style="width: 100.0%; height: 100.0%;"><b>Mürren</b><br>Previously visited<br><i>Previously Visited</i></div>`)[0];
+                popup_40d19f2506b5e5450979a096fff94781.setContent(html_0c5304793ed676f46d18fd1c23cf5306);
+            
+        
+
+        marker_4fe950f303ae3759e134a24257b0c5af.bindPopup(popup_40d19f2506b5e5450979a096fff94781)
+        ;
+
+        
+    
+    
+            marker_4fe950f303ae3759e134a24257b0c5af.bindTooltip(
+                `<div>
+                     Mürren
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_4fe950f303ae3759e134a24257b0c5af.setIcon(icon_60c753538dbba6894862f48c9ff4c12c);
+            
+    
+            var marker_5fbd8ad457bbd67ffbd13f8a824c990d = L.marker(
+                [46.021, 7.749],
+                {
+}
+            ).addTo(map_8a7647c3dbd913e9ee8c7d70156c20c9);
+        
+    
+            var icon_33440c785a15b26de785525f74e44b02 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "remove",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_070b2d2d11ff5992a8558a44846685c5 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_9c60e974ed9ddb770bbb89b66abd5b31 = $(`<div id="html_9c60e974ed9ddb770bbb89b66abd5b31" style="width: 100.0%; height: 100.0%;"><b>Zermatt</b><br>Previously visited<br><i>Previously Visited</i></div>`)[0];
+                popup_070b2d2d11ff5992a8558a44846685c5.setContent(html_9c60e974ed9ddb770bbb89b66abd5b31);
+            
+        
+
+        marker_5fbd8ad457bbd67ffbd13f8a824c990d.bindPopup(popup_070b2d2d11ff5992a8558a44846685c5)
+        ;
+
+        
+    
+    
+            marker_5fbd8ad457bbd67ffbd13f8a824c990d.bindTooltip(
+                `<div>
+                     Zermatt
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_5fbd8ad457bbd67ffbd13f8a824c990d.setIcon(icon_33440c785a15b26de785525f74e44b02);
+            
+    
+            var marker_f4fed863bdd4259e0c689582a9e4aaa6 = L.marker(
+                [47.05, 8.31],
+                {
+}
+            ).addTo(map_8a7647c3dbd913e9ee8c7d70156c20c9);
+        
+    
+            var icon_ea665c622e08de7657487f2645ed5b40 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_a25e93bcd10f9a26300ad29db719fb4c = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_8a05fee9f6c8e2709db2ade12b1e3335 = $(`<div id="html_8a05fee9f6c8e2709db2ade12b1e3335" style="width: 100.0%; height: 100.0%;"><b>Lucerne</b><br>Medieval old town, Chapel Bridge, Mt. Pilatus<br><i>Larger Cities</i></div>`)[0];
+                popup_a25e93bcd10f9a26300ad29db719fb4c.setContent(html_8a05fee9f6c8e2709db2ade12b1e3335);
+            
+        
+
+        marker_f4fed863bdd4259e0c689582a9e4aaa6.bindPopup(popup_a25e93bcd10f9a26300ad29db719fb4c)
+        ;
+
+        
+    
+    
+            marker_f4fed863bdd4259e0c689582a9e4aaa6.bindTooltip(
+                `<div>
+                     Lucerne
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_f4fed863bdd4259e0c689582a9e4aaa6.setIcon(icon_ea665c622e08de7657487f2645ed5b40);
+            
+    
+            var marker_fccf2bda017e428fe4def0bd4f6fa19c = L.marker(
+                [46.004, 8.951],
+                {
+}
+            ).addTo(map_8a7647c3dbd913e9ee8c7d70156c20c9);
+        
+    
+            var icon_43a6efa247da07eb92bd99a41d32ab31 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_0f63e3bf6daa4537520bf1225be5ec8c = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_ca883ad993231b8e0407dd7e9799fc65 = $(`<div id="html_ca883ad993231b8e0407dd7e9799fc65" style="width: 100.0%; height: 100.0%;"><b>Lugano</b><br>Italian-Swiss city with palm trees<br><i>Larger Cities</i></div>`)[0];
+                popup_0f63e3bf6daa4537520bf1225be5ec8c.setContent(html_ca883ad993231b8e0407dd7e9799fc65);
+            
+        
+
+        marker_fccf2bda017e428fe4def0bd4f6fa19c.bindPopup(popup_0f63e3bf6daa4537520bf1225be5ec8c)
+        ;
+
+        
+    
+    
+            marker_fccf2bda017e428fe4def0bd4f6fa19c.bindTooltip(
+                `<div>
+                     Lugano
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_fccf2bda017e428fe4def0bd4f6fa19c.setIcon(icon_43a6efa247da07eb92bd99a41d32ab31);
+            
+    
+            var marker_06d4c3825216aa2a6cd21d98e0b4b99c = L.marker(
+                [46.171, 8.799],
+                {
+}
+            ).addTo(map_8a7647c3dbd913e9ee8c7d70156c20c9);
+        
+    
+            var icon_a192fab206ca003202c032ef3152d62a = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_85ee1d1437ebc25b9e638ccba2749462 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_ff01dec8e853100be85e314ceccceb9f = $(`<div id="html_ff01dec8e853100be85e314ceccceb9f" style="width: 100.0%; height: 100.0%;"><b>Locarno</b><br>Film festival town, warm climate<br><i>Larger Cities</i></div>`)[0];
+                popup_85ee1d1437ebc25b9e638ccba2749462.setContent(html_ff01dec8e853100be85e314ceccceb9f);
+            
+        
+
+        marker_06d4c3825216aa2a6cd21d98e0b4b99c.bindPopup(popup_85ee1d1437ebc25b9e638ccba2749462)
+        ;
+
+        
+    
+    
+            marker_06d4c3825216aa2a6cd21d98e0b4b99c.bindTooltip(
+                `<div>
+                     Locarno
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_06d4c3825216aa2a6cd21d98e0b4b99c.setIcon(icon_a192fab206ca003202c032ef3152d62a);
+            
+    
+            var marker_f9a53cdd6e5b8c48902573d5188d499b = L.marker(
+                [46.154, 8.775],
+                {
+}
+            ).addTo(map_8a7647c3dbd913e9ee8c7d70156c20c9);
+        
+    
+            var icon_2cf526dd4de671ae007b715dc40d915c = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_cb89139ee3bdb18bd7bfc39c18c93308 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_75562ebbd1df65386145b3a4ccf89171 = $(`<div id="html_75562ebbd1df65386145b3a4ccf89171" style="width: 100.0%; height: 100.0%;"><b>Ascona</b><br>Chic lakeside resort<br><i>Larger Cities</i></div>`)[0];
+                popup_cb89139ee3bdb18bd7bfc39c18c93308.setContent(html_75562ebbd1df65386145b3a4ccf89171);
+            
+        
+
+        marker_f9a53cdd6e5b8c48902573d5188d499b.bindPopup(popup_cb89139ee3bdb18bd7bfc39c18c93308)
+        ;
+
+        
+    
+    
+            marker_f9a53cdd6e5b8c48902573d5188d499b.bindTooltip(
+                `<div>
+                     Ascona
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_f9a53cdd6e5b8c48902573d5188d499b.setIcon(icon_2cf526dd4de671ae007b715dc40d915c);
+            
+    
+            var marker_af898c0398c4fe0028c38577bae69af4 = L.marker(
+                [46.431, 6.912],
+                {
+}
+            ).addTo(map_8a7647c3dbd913e9ee8c7d70156c20c9);
+        
+    
+            var icon_e0a6d5067dbc48e471c536850befe400 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_42b2033866865710e183b795d4cd5b1d = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_88c7c6fc2d8c30a568eb8a6a04d54a5d = $(`<div id="html_88c7c6fc2d8c30a568eb8a6a04d54a5d" style="width: 100.0%; height: 100.0%;"><b>Montreux</b><br>Lake Geneva, jazz festival<br><i>Larger Cities</i></div>`)[0];
+                popup_42b2033866865710e183b795d4cd5b1d.setContent(html_88c7c6fc2d8c30a568eb8a6a04d54a5d);
+            
+        
+
+        marker_af898c0398c4fe0028c38577bae69af4.bindPopup(popup_42b2033866865710e183b795d4cd5b1d)
+        ;
+
+        
+    
+    
+            marker_af898c0398c4fe0028c38577bae69af4.bindTooltip(
+                `<div>
+                     Montreux
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_af898c0398c4fe0028c38577bae69af4.setIcon(icon_e0a6d5067dbc48e471c536850befe400);
+            
+    
+            var marker_f4f27be74e7db07e6296cb54a2ec5fc3 = L.marker(
+                [46.849, 9.531],
+                {
+}
+            ).addTo(map_8a7647c3dbd913e9ee8c7d70156c20c9);
+        
+    
+            var icon_29aa6910ff8817da45b788b12975d445 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_f30d880abbc87c66c1c3bbec790fd315 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_c30b6887d41f33a1791f9638da35fbea = $(`<div id="html_c30b6887d41f33a1791f9638da35fbea" style="width: 100.0%; height: 100.0%;"><b>Chur</b><br>Switzerland's oldest city<br><i>Larger Cities</i></div>`)[0];
+                popup_f30d880abbc87c66c1c3bbec790fd315.setContent(html_c30b6887d41f33a1791f9638da35fbea);
+            
+        
+
+        marker_f4f27be74e7db07e6296cb54a2ec5fc3.bindPopup(popup_f30d880abbc87c66c1c3bbec790fd315)
+        ;
+
+        
+    
+    
+            marker_f4f27be74e7db07e6296cb54a2ec5fc3.bindTooltip(
+                `<div>
+                     Chur
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_f4f27be74e7db07e6296cb54a2ec5fc3.setIcon(icon_29aa6910ff8817da45b788b12975d445);
+            
+    
+            var marker_62c4807c9292899cfb0f050ec65e4a5d = L.marker(
+                [46.107, 7.503],
+                {
+}
+            ).addTo(map_8a7647c3dbd913e9ee8c7d70156c20c9);
+        
+    
+            var icon_3cea7ee18fff02f1291abc2c62c64c7c = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "purple",
+  "iconColor": "white",
+  "icon": "tree-conifer",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_900c2dc269e40096ed0b313aaca4e854 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_79c15106f74e6df193562711c1cd8d35 = $(`<div id="html_79c15106f74e6df193562711c1cd8d35" style="width: 100.0%; height: 100.0%;"><b>Evolène</b><br>Authentic Valais village, 4000m peaks<br><i>Mountain Towns</i></div>`)[0];
+                popup_900c2dc269e40096ed0b313aaca4e854.setContent(html_79c15106f74e6df193562711c1cd8d35);
+            
+        
+
+        marker_62c4807c9292899cfb0f050ec65e4a5d.bindPopup(popup_900c2dc269e40096ed0b313aaca4e854)
+        ;
+
+        
+    
+    
+            marker_62c4807c9292899cfb0f050ec65e4a5d.bindTooltip(
+                `<div>
+                     Evolène
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_62c4807c9292899cfb0f050ec65e4a5d.setIcon(icon_3cea7ee18fff02f1291abc2c62c64c7c);
+            
+    
+            var marker_1cb7ea37b712694a0d86e7bb4e194bd3 = L.marker(
+                [46.544, 7.892],
+                {
+}
+            ).addTo(map_8a7647c3dbd913e9ee8c7d70156c20c9);
+        
+    
+            var icon_9774d805e766bfff0e99c23a6e4c67eb = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "purple",
+  "iconColor": "white",
+  "icon": "tree-conifer",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_6a2292b20c0164f16d9e50d31d5bb855 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_c69e3fff6900dfb3193ddaec14dc6279 = $(`<div id="html_c69e3fff6900dfb3193ddaec14dc6279" style="width: 100.0%; height: 100.0%;"><b>Gimmelwald</b><br>Car-free farming village<br><i>Mountain Towns</i></div>`)[0];
+                popup_6a2292b20c0164f16d9e50d31d5bb855.setContent(html_c69e3fff6900dfb3193ddaec14dc6279);
+            
+        
+
+        marker_1cb7ea37b712694a0d86e7bb4e194bd3.bindPopup(popup_6a2292b20c0164f16d9e50d31d5bb855)
+        ;
+
+        
+    
+    
+            marker_1cb7ea37b712694a0d86e7bb4e194bd3.bindTooltip(
+                `<div>
+                     Gimmelwald
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_1cb7ea37b712694a0d86e7bb4e194bd3.setIcon(icon_9774d805e766bfff0e99c23a6e4c67eb);
+            
+    
+            var marker_4d63fcd124cc428402cec0fa92dd1020 = L.marker(
+                [46.823, 8.404],
+                {
+}
+            ).addTo(map_8a7647c3dbd913e9ee8c7d70156c20c9);
+        
+    
+            var icon_77684c1318e0d234408275e3f91ea262 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "purple",
+  "iconColor": "white",
+  "icon": "tree-conifer",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_53786c1dbc0728ca5a2aa46d505db3b4 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_d78a6bf665db267cbe7fc81e8ae66338 = $(`<div id="html_d78a6bf665db267cbe7fc81e8ae66338" style="width: 100.0%; height: 100.0%;"><b>Engelberg</b><br>Mt. Titlis, 12th-century abbey<br><i>Mountain Towns</i></div>`)[0];
+                popup_53786c1dbc0728ca5a2aa46d505db3b4.setContent(html_d78a6bf665db267cbe7fc81e8ae66338);
+            
+        
+
+        marker_4d63fcd124cc428402cec0fa92dd1020.bindPopup(popup_53786c1dbc0728ca5a2aa46d505db3b4)
+        ;
+
+        
+    
+    
+            marker_4d63fcd124cc428402cec0fa92dd1020.bindTooltip(
+                `<div>
+                     Engelberg
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_4d63fcd124cc428402cec0fa92dd1020.setIcon(icon_77684c1318e0d234408275e3f91ea262);
+            
+    
+            var marker_4d5ba8a989084671d3c0629142d4c81f = L.marker(
+                [46.624, 8.041],
+                {
+}
+            ).addTo(map_8a7647c3dbd913e9ee8c7d70156c20c9);
+        
+    
+            var icon_a17652b1c18ae67f3a6d72c614b92f7e = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "purple",
+  "iconColor": "white",
+  "icon": "tree-conifer",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_c576b55af0c086453df3c4fbbce11b04 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_a0902b180541aedd3d2a4b3285d84076 = $(`<div id="html_a0902b180541aedd3d2a4b3285d84076" style="width: 100.0%; height: 100.0%;"><b>Grindelwald</b><br>Eiger views, Jungfraujoch access<br><i>Mountain Towns</i></div>`)[0];
+                popup_c576b55af0c086453df3c4fbbce11b04.setContent(html_a0902b180541aedd3d2a4b3285d84076);
+            
+        
+
+        marker_4d5ba8a989084671d3c0629142d4c81f.bindPopup(popup_c576b55af0c086453df3c4fbbce11b04)
+        ;
+
+        
+    
+    
+            marker_4d5ba8a989084671d3c0629142d4c81f.bindTooltip(
+                `<div>
+                     Grindelwald
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_4d5ba8a989084671d3c0629142d4c81f.setIcon(icon_a17652b1c18ae67f3a6d72c614b92f7e);
+            
+    
+            var marker_c9d6467abbb113811c63b8bf6f6fd502 = L.marker(
+                [46.607, 7.922],
+                {
+}
+            ).addTo(map_8a7647c3dbd913e9ee8c7d70156c20c9);
+        
+    
+            var icon_6538358e65f15cea33f35702b67a78a7 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "purple",
+  "iconColor": "white",
+  "icon": "tree-conifer",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_64e397d76599f2e2dfda7d78ce3dee03 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_79dec81309ec6d98753c7187d4567396 = $(`<div id="html_79dec81309ec6d98753c7187d4567396" style="width: 100.0%; height: 100.0%;"><b>Wengen</b><br>Car-free Lauterbrunnen valley<br><i>Mountain Towns</i></div>`)[0];
+                popup_64e397d76599f2e2dfda7d78ce3dee03.setContent(html_79dec81309ec6d98753c7187d4567396);
+            
+        
+
+        marker_c9d6467abbb113811c63b8bf6f6fd502.bindPopup(popup_64e397d76599f2e2dfda7d78ce3dee03)
+        ;
+
+        
+    
+    
+            marker_c9d6467abbb113811c63b8bf6f6fd502.bindTooltip(
+                `<div>
+                     Wengen
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_c9d6467abbb113811c63b8bf6f6fd502.setIcon(icon_6538358e65f15cea33f35702b67a78a7);
+            
+    
+            var marker_7993dbd38268b69caf73af7c56ecec18 = L.marker(
+                [46.593, 7.908],
+                {
+}
+            ).addTo(map_8a7647c3dbd913e9ee8c7d70156c20c9);
+        
+    
+            var icon_809e84400eb37e2290ff8608cb5bfb89 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "purple",
+  "iconColor": "white",
+  "icon": "tree-conifer",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_d1cd598459c4034a99be2248994d7620 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_281974439ab5d9dfb360479e3d257212 = $(`<div id="html_281974439ab5d9dfb360479e3d257212" style="width: 100.0%; height: 100.0%;"><b>Lauterbrunnen</b><br>72 waterfalls, glacial valley<br><i>Mountain Towns</i></div>`)[0];
+                popup_d1cd598459c4034a99be2248994d7620.setContent(html_281974439ab5d9dfb360479e3d257212);
+            
+        
+
+        marker_7993dbd38268b69caf73af7c56ecec18.bindPopup(popup_d1cd598459c4034a99be2248994d7620)
+        ;
+
+        
+    
+    
+            marker_7993dbd38268b69caf73af7c56ecec18.bindTooltip(
+                `<div>
+                     Lauterbrunnen
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_7993dbd38268b69caf73af7c56ecec18.setIcon(icon_809e84400eb37e2290ff8608cb5bfb89);
+            
+    
+            var marker_40e16b1e8393880cb539dfaa26c93b41 = L.marker(
+                [46.878, 9.877],
+                {
+}
+            ).addTo(map_8a7647c3dbd913e9ee8c7d70156c20c9);
+        
+    
+            var icon_4b9efabf8bcec9a8528e5be2c2f122b9 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "purple",
+  "iconColor": "white",
+  "icon": "tree-conifer",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_528294fc3653b47e8437efcc12124eb9 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_e630b72c962d7d01696446b65bb35caf = $(`<div id="html_e630b72c962d7d01696446b65bb35caf" style="width: 100.0%; height: 100.0%;"><b>Klosters</b><br>Quiet mountain town<br><i>Mountain Towns</i></div>`)[0];
+                popup_528294fc3653b47e8437efcc12124eb9.setContent(html_e630b72c962d7d01696446b65bb35caf);
+            
+        
+
+        marker_40e16b1e8393880cb539dfaa26c93b41.bindPopup(popup_528294fc3653b47e8437efcc12124eb9)
+        ;
+
+        
+    
+    
+            marker_40e16b1e8393880cb539dfaa26c93b41.bindTooltip(
+                `<div>
+                     Klosters
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_40e16b1e8393880cb539dfaa26c93b41.setIcon(icon_4b9efabf8bcec9a8528e5be2c2f122b9);
+            
+    
+            var marker_c8d7ecec0e0c1871b2927b2889fc26bc = L.marker(
+                [46.837, 9.285],
+                {
+}
+            ).addTo(map_8a7647c3dbd913e9ee8c7d70156c20c9);
+        
+    
+            var icon_593955ce27a67b8476e74ea1e4c4b3d9 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "purple",
+  "iconColor": "white",
+  "icon": "tree-conifer",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_8c6af25363324d54e6833735178c3a17 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_c921d21c2ad864d3a4e2f4e7b8ed48c7 = $(`<div id="html_c921d21c2ad864d3a4e2f4e7b8ed48c7" style="width: 100.0%; height: 100.0%;"><b>Flims</b><br>Caumasee lake, Rhine Gorge<br><i>Mountain Towns</i></div>`)[0];
+                popup_8c6af25363324d54e6833735178c3a17.setContent(html_c921d21c2ad864d3a4e2f4e7b8ed48c7);
+            
+        
+
+        marker_c8d7ecec0e0c1871b2927b2889fc26bc.bindPopup(popup_8c6af25363324d54e6833735178c3a17)
+        ;
+
+        
+    
+    
+            marker_c8d7ecec0e0c1871b2927b2889fc26bc.bindTooltip(
+                `<div>
+                     Flims
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_c8d7ecec0e0c1871b2927b2889fc26bc.setIcon(icon_593955ce27a67b8476e74ea1e4c4b3d9);
+            
+    
+            var marker_33fe15f648b963febf53bf3c99dff05e = L.marker(
+                [46.789, 10.299],
+                {
+}
+            ).addTo(map_8a7647c3dbd913e9ee8c7d70156c20c9);
+        
+    
+            var icon_ae1c9b985648b90c505031746d6b4c54 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "purple",
+  "iconColor": "white",
+  "icon": "tree-conifer",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_1480d9ce9795623fc9dfcb190234d109 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_508779a696f3e991657510309dedb7e4 = $(`<div id="html_508779a696f3e991657510309dedb7e4" style="width: 100.0%; height: 100.0%;"><b>Guarda</b><br>Historic Romansh village<br><i>Mountain Towns</i></div>`)[0];
+                popup_1480d9ce9795623fc9dfcb190234d109.setContent(html_508779a696f3e991657510309dedb7e4);
+            
+        
+
+        marker_33fe15f648b963febf53bf3c99dff05e.bindPopup(popup_1480d9ce9795623fc9dfcb190234d109)
+        ;
+
+        
+    
+    
+            marker_33fe15f648b963febf53bf3c99dff05e.bindTooltip(
+                `<div>
+                     Guarda
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_33fe15f648b963febf53bf3c99dff05e.setIcon(icon_ae1c9b985648b90c505031746d6b4c54);
+            
+    
+            var marker_f2b24d647cc87aaafaedb52f16474018 = L.marker(
+                [46.355, 9.528],
+                {
+}
+            ).addTo(map_8a7647c3dbd913e9ee8c7d70156c20c9);
+        
+    
+            var icon_ce54e54046c08dccb109bbd7ab85dbc8 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "purple",
+  "iconColor": "white",
+  "icon": "tree-conifer",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_eea1840790b89c1d078e9d8956ab7a81 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_d0966cc7c49f232ca8c532b9eda2f74a = $(`<div id="html_d0966cc7c49f232ca8c532b9eda2f74a" style="width: 100.0%; height: 100.0%;"><b>Soglio</b><br>Gateway to paradise<br><i>Mountain Towns</i></div>`)[0];
+                popup_eea1840790b89c1d078e9d8956ab7a81.setContent(html_d0966cc7c49f232ca8c532b9eda2f74a);
+            
+        
+
+        marker_f2b24d647cc87aaafaedb52f16474018.bindPopup(popup_eea1840790b89c1d078e9d8956ab7a81)
+        ;
+
+        
+    
+    
+            marker_f2b24d647cc87aaafaedb52f16474018.bindTooltip(
+                `<div>
+                     Soglio
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_f2b24d647cc87aaafaedb52f16474018.setIcon(icon_ce54e54046c08dccb109bbd7ab85dbc8);
+            
+    
+            var marker_c5afe076fdb6657172ca147b5ca6aac8 = L.marker(
+                [46.498, 9.836],
+                {
+}
+            ).addTo(map_8a7647c3dbd913e9ee8c7d70156c20c9);
+        
+    
+            var icon_ed725101fe3e049dccfb5dd71256a897 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "star",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_0dcad13a523455e7a272887618d2c9fb = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_9b46cf5ea03852d1f0fd938c80a60b6d = $(`<div id="html_9b46cf5ea03852d1f0fd938c80a60b6d" style="width: 100.0%; height: 100.0%;"><b>St. Moritz</b><br>Luxury resort - hiking, kitesurfing<br><i>St. Moritz & Engadine</i></div>`)[0];
+                popup_0dcad13a523455e7a272887618d2c9fb.setContent(html_9b46cf5ea03852d1f0fd938c80a60b6d);
+            
+        
+
+        marker_c5afe076fdb6657172ca147b5ca6aac8.bindPopup(popup_0dcad13a523455e7a272887618d2c9fb)
+        ;
+
+        
+    
+    
+            marker_c5afe076fdb6657172ca147b5ca6aac8.bindTooltip(
+                `<div>
+                     St. Moritz
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_c5afe076fdb6657172ca147b5ca6aac8.setIcon(icon_ed725101fe3e049dccfb5dd71256a897);
+            
+    
+            var marker_0243ae50cf08c4b96ea442ae1c9e7454 = L.marker(
+                [46.458, 9.796],
+                {
+}
+            ).addTo(map_8a7647c3dbd913e9ee8c7d70156c20c9);
+        
+    
+            var icon_2f34056dbb43a1e2c0169d65f274fc1f = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "star",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_fc8f1c597eeffbea8b860a96c504fc4b = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_4047e7a7aad48a5d911ddd8df7a0f381 = $(`<div id="html_4047e7a7aad48a5d911ddd8df7a0f381" style="width: 100.0%; height: 100.0%;"><b>Silvaplana</b><br>Top kitesurfing destination<br><i>St. Moritz & Engadine</i></div>`)[0];
+                popup_fc8f1c597eeffbea8b860a96c504fc4b.setContent(html_4047e7a7aad48a5d911ddd8df7a0f381);
+            
+        
+
+        marker_0243ae50cf08c4b96ea442ae1c9e7454.bindPopup(popup_fc8f1c597eeffbea8b860a96c504fc4b)
+        ;
+
+        
+    
+    
+            marker_0243ae50cf08c4b96ea442ae1c9e7454.bindTooltip(
+                `<div>
+                     Silvaplana
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_0243ae50cf08c4b96ea442ae1c9e7454.setIcon(icon_2f34056dbb43a1e2c0169d65f274fc1f);
+            
+    
+            var marker_c967e7edd2a8e9009462920fd17b308c = L.marker(
+                [46.431, 9.762],
+                {
+}
+            ).addTo(map_8a7647c3dbd913e9ee8c7d70156c20c9);
+        
+    
+            var icon_61e48af7b938d127475eed9b8e35fb5f = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "star",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_70c10cf83edb67bfe086f0c18b8ff079 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_5bd4c34c1c65e0c37795d59b20abf7e7 = $(`<div id="html_5bd4c34c1c65e0c37795d59b20abf7e7" style="width: 100.0%; height: 100.0%;"><b>Sils</b><br>Peaceful Engadine village<br><i>St. Moritz & Engadine</i></div>`)[0];
+                popup_70c10cf83edb67bfe086f0c18b8ff079.setContent(html_5bd4c34c1c65e0c37795d59b20abf7e7);
+            
+        
+
+        marker_c967e7edd2a8e9009462920fd17b308c.bindPopup(popup_70c10cf83edb67bfe086f0c18b8ff079)
+        ;
+
+        
+    
+    
+            marker_c967e7edd2a8e9009462920fd17b308c.bindTooltip(
+                `<div>
+                     Sils
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_c967e7edd2a8e9009462920fd17b308c.setIcon(icon_61e48af7b938d127475eed9b8e35fb5f);
+            
+    
+            var marker_34da99698c2b3074bd13f0f3a034cb3e = L.marker(
+                [46.494, 9.903],
+                {
+}
+            ).addTo(map_8a7647c3dbd913e9ee8c7d70156c20c9);
+        
+    
+            var icon_048d8f577900928ab64f03356754cf2f = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "star",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_7c5646c59f5caa4bf80ed3070d9a34d5 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_e4624a2fda8de773b0c5bd682edfc6ba = $(`<div id="html_e4624a2fda8de773b0c5bd682edfc6ba" style="width: 100.0%; height: 100.0%;"><b>Pontresina</b><br>Mountain village near St. Moritz<br><i>St. Moritz & Engadine</i></div>`)[0];
+                popup_7c5646c59f5caa4bf80ed3070d9a34d5.setContent(html_e4624a2fda8de773b0c5bd682edfc6ba);
+            
+        
+
+        marker_34da99698c2b3074bd13f0f3a034cb3e.bindPopup(popup_7c5646c59f5caa4bf80ed3070d9a34d5)
+        ;
+
+        
+    
+    
+            marker_34da99698c2b3074bd13f0f3a034cb3e.bindTooltip(
+                `<div>
+                     Pontresina
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_34da99698c2b3074bd13f0f3a034cb3e.setIcon(icon_048d8f577900928ab64f03356754cf2f);
+            
+    
+            var layer_control_6b5027c5ebeb8736f2c910e42896a641_layers = {
+                base_layers : {
+                    "Topographic" : tile_layer_e4311feb02668672471f5ae6c18f6d47,
+                    "Street Map" : tile_layer_e8fefd164eee20c4fa4b04afdb9ecec0,
+                    "Satellite" : tile_layer_4424d9e8a48630b3bb770fc9dec51d2a,
+                },
+                overlays :  {
+                },
+            };
+            let layer_control_6b5027c5ebeb8736f2c910e42896a641 = L.control.layers(
+                layer_control_6b5027c5ebeb8736f2c910e42896a641_layers.base_layers,
+                layer_control_6b5027c5ebeb8736f2c910e42896a641_layers.overlays,
+                {
+  "position": "topright",
+  "collapsed": true,
+  "autoZIndex": true,
+}
+            ).addTo(map_8a7647c3dbd913e9ee8c7d70156c20c9);
+
+        
+    
+            L.control.fullscreen(
+                {
+  "position": "topleft",
+  "title": "Full Screen",
+  "titleCancel": "Exit Full Screen",
+  "forceSeparateButton": false,
+}
+            ).addTo(map_8a7647c3dbd913e9ee8c7d70156c20c9);
+        
+    
+            var measure_control_16b4d72028261f1877a8a92ef2a06410 = new L.Control.Measure(
+                {
+  "position": "topright",
+  "primaryLengthUnit": "kilometers",
+  "secondaryLengthUnit": "miles",
+  "primaryAreaUnit": "sqmeters",
+  "secondaryAreaUnit": "acres",
+});
+            map_8a7647c3dbd913e9ee8c7d70156c20c9.addControl(measure_control_16b4d72028261f1877a8a92ef2a06410);
+
+            // Workaround for using this plugin with Leaflet>=1.8.0
+            // https://github.com/ljagis/leaflet-measure/issues/171
+            L.Control.Measure.include({
+                _setCaptureMarkerIcon: function () {
+                    // disable autopan
+                    this._captureMarker.options.autoPanOnFocus = false;
+                    // default function
+                    this._captureMarker.setIcon(
+                        L.divIcon({
+                            iconSize: this._map.getSize().multiplyBy(2)
+                        })
+                    );
+                },
+            });
+
+        
+</script>
+</html>
