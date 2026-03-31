@@ -9,6 +9,7 @@ const subApps = [
   { label: "Crossword", href: "/dashboard/crossword", icon: "⊞" },
   { label: "SixSeven", href: "/dashboard/sixseven", icon: "🟩" },
   { label: "Switzerland Map", href: "/dashboard/switzerland-map", icon: "🗺️" },
+  { label: "Investments", href: "/dashboard/investments", icon: "💰" },
   { label: "Bot Status", href: "/dashboard/status", icon: "⚡" },
 ];
 
