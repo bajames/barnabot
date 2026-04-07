@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Switzerland Vacation Planner - June 2-12, 2026</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+        .container {
+            display: flex;
+            height: calc(100vh - 120px);
+        }
+        #map {
+            flex: 1;
+            height: 100%;
+        }
+        .sidebar {
+            width: 450px;
+            background: white;
+            overflow-y: auto;
+            box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+        }
+        .location-card {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .location-card:hover {
+            background: #f9f9f9;
+        }
+        .location-card h2 {
+            color: #667eea;
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+        .location-card .dates {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        .section {
+            margin: 1rem 0;
+        }
+        .section h3 {
+            font-size: 1rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+        .section h3::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 16px;
+            background: #667eea;
+            margin-right: 8px;
+        }
+        .section ul {
+            list-style: none;
+            padding-left: 1rem;
+        }
+        .section li {
+            padding: 0.3rem 0;
+            color: #555;
+            line-height: 1.5;
+        }
+        .section li::before {
+            content: '•';
+            color: #667eea;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        .rail-info {
+            background: #f0f4ff;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+        .rail-info strong {
+            color: #667eea;
+        }
+        .hotel-info {
+            background: #fff8e1;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        .leaflet-popup-content {
+            margin: 1rem;
+            min-width: 250px;
+        }
+        .leaflet-popup-content h3 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                height: 50vh;
+            }
+            #map {
+                height: 50vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🇨🇭 Switzerland Vacation Planner</h1>
+        <p>June 2-12, 2026 | Lucerne → Wengen → Zermatt → Zürich</p>
+    </div>
+
+    <div class="container">
+        <div id="map"></div>
+        <div class="sidebar">
+            <!-- Lucerne -->
+            <div class="location-card">
+                <h2>📍 Lucerne (Luzern)</h2>
+                <div class="dates">🗓️ June 3-6, 2026 (3 nights)</div>
+
+                <div class="hotel-info">
+                    <strong>🏨 Hotel Astoria Luzern</strong><br>
+                    Pilatusstrasse 29, 6003 Luzern
+                </div>
+
+                <div class="section">
+                    <h3>🚄 Getting There</h3>
+                    <div class="rail-info">
+                        <strong>Zürich Airport → Lucerne</strong><br>
+                        Duration: 41-59 minutes<br>
+                        Frequency: Every 27 min (40+ trains/day)<br>
+                        Operator: SBB<br>
+                        Direct service available
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>✨ Top Things to Do</h3>
+                    <ul>
+                        <li><strong>Chapel Bridge (Kapellbrücke)</strong> - Europe's oldest covered bridge, built in 14th century</li>
+                        <li><strong>Lion Monument</strong> - Sandstone memorial for Swiss mercenaries</li>
+                        <li><strong>Musegg Wall</strong> - 4 climbable towers with city views</li>
+                        <li><strong>Lake Lucerne Cruise</strong> - Scenic boat tour</li>
+                        <li><strong>Swiss Transport Museum</strong> - 3,000+ exhibits, planetarium, 3D cinema</li>
+                        <li><strong>Mt. Pilatus</strong> - World's steepest cogwheel train</li>
+                        <li><strong>Mt. Rigi</strong> - Full-day hiking with stunning views</li>
+                        <li><strong>Mt. Titlis</strong> - 10,626 ft peak with revolving cable car</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Wengen -->
+            <div class="location-card">
+                <h2>📍 Wengen</h2>
+                <div class="dates">🗓️ June 6-8, 2026 (2 nights)</div>
+
+                <div class="section">
+                    <h3>🚄 Rail Connection</h3>
+                    <div class="rail-info">
+                        <strong>Lucerne → Wengen</strong><br>
+                        Duration: 2h 35min - 4h 7min<br>
+                        Frequency: 22 trains/day<br>
+                        Route: Lucerne → Interlaken Ost → Lauterbrunnen → Wengen<br>
+                        Changes: Minimum 2<br>
+                        Final leg: 11-minute cogwheel train from Lauterbrunnen<br>
+                        Operator: SBB, Zentralbahn
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>✨ Top Things to Do</h3>
+                    <ul>
+                        <li><strong>Jungfraujoch</strong> - Top of Europe (most popular attraction)</li>
+                        <li><strong>Kleine Scheidegg Hike</strong> - 2.5 hours one-way with glacier views</li>
+                        <li><strong>Royal Walk</strong> - 45-minute crown viewing platform hike</li>
+                        <li><strong>Männlichen Cable Car</strong> - Access to Panorama Trail at 2,230m</li>
+                        <li><strong>Panorama Trail</strong> - Männlichen to Kleine Scheidegg</li>
+                        <li><strong>Männlichen Cow Playground</strong> - Best playground in Jungfrau region</li>
+                        <li><strong>Free BBQ Sites</strong> - Equipped fire pits throughout village</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Zermatt -->
+            <div class="location-card">
+                <h2>📍 Zermatt</h2>
+                <div class="dates">🗓️ June 8-11, 2026 (3 nights)</div>
+
+                <div class="hotel-info">
+                    <strong>🏨 Hotel Bellerive</strong><br>
+                    Riedstrasse 3, 3920 Zermatt
+                </div>
+
+                <div class="section">
+                    <h3>🚄 Rail Connection</h3>
+                    <div class="rail-info">
+                        <strong>Wengen → Zermatt</strong><br>
+                        Duration: 3h 4min - 3h 24min<br>
+                        Distance: 41 miles (66 km)<br>
+                        Frequency: 23 trains/day<br>
+                        Changes: 4 (no direct service)<br>
+                        Operator: SBB<br>
+                        Note: Highly scenic route with alpine views
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>✨ Top Things to Do</h3>
+                    <ul>
+                        <li><strong>Matterhorn Glacier Paradise</strong> - Highest cable car station in Europe (3,883m), ice palace, skiing</li>
+                        <li><strong>Gornergrat Railway</strong> - Cogwheel train to 3,089m with Matterhorn views</li>
+                        <li><strong>Gorner Glacier</strong> - Second largest glacier in the Alps</li>
+                        <li><strong>Hiking</strong> - 400+ km of marked trails through pine forests and alpine lakes</li>
+                        <li><strong>Helicopter Tours</strong> - Aerial views with Air Zermatt</li>
+                        <li><strong>Hinterdorf Quarter</strong> - 30+ historic larch-wood houses (300-500 years old)</li>
+                        <li><strong>Valais Blacknose Sheep</strong> - Best viewed July-September on Gornergrat</li>
+                        <li><strong>Swiss Cuisine</strong> - Fondue, Rösti, Raclette, Swiss chocolate</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Zürich -->
+            <div class="location-card">
+                <h2>📍 Zürich</h2>
+                <div class="dates">🗓️ June 11-12, 2026 (1 night)</div>
+
+                <div class="hotel-info">
+                    <strong>🏨 Dorint Airport-Hotel Zürich</strong><br>
+                    Near Zürich Airport
+                </div>
+
+                <div class="section">
+                    <h3>🚄 Rail Connection</h3>
+                    <div class="rail-info">
+                        <strong>Zermatt → Zürich</strong><br>
+                        Duration: 3h 15min - 3h 51min<br>
+                        Distance: 162 km<br>
+                        Frequency: 30 trains/day (every 24 min)<br>
+                        Changes: Minimum 1 (at Visp)<br>
+                        Operator: SBB, Matterhorn-Gotthard-Bahn<br>
+                        First train: 05:37 | Last train: 21:13
+                    </div>
+                </div>
+            </div>
+
+            <!-- Flight Info -->
+            <div class="location-card" style="background: #f0f4ff;">
+                <h2>✈️ Flight Information</h2>
+
+                <div class="section">
+                    <h3>Outbound (likely June 2)</h3>
+                    <ul>
+                        <li>Route: San Francisco (SFO) → Zürich (ZRH)</li>
+                        <li>Duration: ~11 hours 5 minutes</li>
+                        <li>Airlines: SWISS (direct), United Airlines</li>
+                        <li>Frequency: 1 nonstop daily</li>
+                    </ul>
+                </div>
+
+                <div class="section">
+                    <h3>Return (June 12-13)</h3>
+                    <ul>
+                        <li>Route: Zürich (ZRH) → San Francisco (SFO)</li>
+                        <li>Zürich Airport is 10-15 min from hotel</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize map centered on Switzerland
+        const map = L.map('map').setView([46.8182, 8.2275], 8);
+
+        // Add OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors',
+            maxZoom: 19
+        }).addTo(map);
+
+        // Location data
+        const locations = [
+            {
+                name: 'Zürich Airport',
+                coords: [47.4647, 8.5492],
+                type: 'airport',
+                popup: '<h3>✈️ Zürich Airport (ZRH)</h3><p>Arrival: June 2<br>Departure: June 12-13</p>'
+            },
+            {
+                name: 'Lucerne',
+                coords: [47.0502, 8.3093],
+                type: 'hotel',
+                popup: '<h3>📍 Lucerne</h3><p><strong>Hotel Astoria Luzern</strong><br>June 3-6, 2026</p><ul style="margin-top:10px;"><li>Chapel Bridge</li><li>Lion Monument</li><li>Mt. Pilatus</li><li>Lake cruises</li></ul>'
+            },
+            {
+                name: 'Wengen',
+                coords: [46.6083, 7.9225],
+                type: 'hotel',
+                popup: '<h3>📍 Wengen</h3><p>June 6-8, 2026</p><ul style="margin-top:10px;"><li>Jungfraujoch</li><li>Kleine Scheidegg hike</li><li>Männlichen cable car</li><li>Panorama Trail</li></ul>'
+            },
+            {
+                name: 'Zermatt',
+                coords: [46.0207, 7.7491],
+                type: 'hotel',
+                popup: '<h3>📍 Zermatt</h3><p><strong>Hotel Bellerive</strong><br>June 8-11, 2026</p><ul style="margin-top:10px;"><li>Matterhorn Glacier Paradise</li><li>Gornergrat Railway</li><li>400km hiking trails</li><li>Car-free village</li></ul>'
+            },
+            {
+                name: 'Zürich',
+                coords: [47.4502, 8.5456],
+                type: 'hotel',
+                popup: '<h3>📍 Zürich</h3><p><strong>Dorint Airport Hotel</strong><br>June 11-12, 2026</p><p>Final night near airport</p>'
+            }
+        ];
+
+        // Add markers
+        const markers = {};
+        locations.forEach((loc, index) => {
+            const icon = L.divIcon({
+                className: 'custom-marker',
+                html: `<div style="background: ${loc.type === 'airport' ? '#ff4444' : '#667eea'}; color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 3px solid white; box-shadow: 0 2px 10px rgba(0,0,0,0.3);">${index + 1}</div>`,
+                iconSize: [30, 30],
+                iconAnchor: [15, 15]
+            });
+
+            const marker = L.marker(loc.coords, { icon }).addTo(map);
+            marker.bindPopup(loc.popup);
+            markers[loc.name] = marker;
+        });
+
+        // Draw route lines
+        const routeStyle = {
+            color: '#667eea',
+            weight: 3,
+            opacity: 0.7,
+            dashArray: '5, 10'
+        };
+
+        // Zürich Airport to Lucerne
+        L.polyline([locations[0].coords, locations[1].coords], routeStyle).addTo(map);
+
+        // Lucerne to Wengen
+        L.polyline([locations[1].coords, locations[2].coords], routeStyle).addTo(map);
+
+        // Wengen to Zermatt
+        L.polyline([locations[2].coords, locations[3].coords], routeStyle).addTo(map);
+
+        // Zermatt to Zürich
+        L.polyline([locations[3].coords, locations[4].coords], routeStyle).addTo(map);
+
+        // Zürich to Airport
+        L.polyline([locations[4].coords, locations[0].coords], routeStyle).addTo(map);
+
+        // Fit bounds to show all markers
+        const bounds = L.latLngBounds(locations.map(loc => loc.coords));
+        map.fitBounds(bounds, { padding: [50, 50] });
+    </script>
+</body>
+</html>
